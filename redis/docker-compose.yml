@@ -1,15 +1,15 @@
-version: "3"
+version: "3.8"
 services:
   redis:
     image: redis:5.0.8
     container_name: redis
+    restart: always
     privileged: true
     ports:
       - "6379:6379"
     volumes:
       - ./conf/redis.conf:/etc/redis/redis.conf:ro
       - ./data:/data/:rw
-    restart: always
     command: redis-server /etc/redis/redis.conf
     environment:
       TZ: "Asia/Shanghai"

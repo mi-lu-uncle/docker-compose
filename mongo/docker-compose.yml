@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  mongo:
+    # 选择mongodb版本
+    image: mongo:3.4.0
+    container_name: mongo
+    # 自启动
+    restart: always
+    privileged: true
+    # 映射宿主机端口
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db    # 挂载数据文件，根据实际路径修改
+      - ./logs:/var/log/mongodb  # 挂载日志文件，根据实际路径修改 ：前的路径
+      #- ./config:/etc/mongo  # 挂载配置文件，根据实际路径修改 ：前的路径
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      TZ: "Asia/Shanghai"
+    networks:
+      - default
+
+#完成后需要按照如下步骤设置mongo的账号密码才能登录
+#docker exec -it 容器id bash
+#mongo
+#show dbs
+#use admin
+#此处设置123456的密码进攻参考，实际安装过程中要设置复杂一点的密码，不然跟没设置密码没有区别
+#db.createUser({user: "root",pwd: "123456",roles: [ { role: "root", db: "admin" } ]})
+#exit
