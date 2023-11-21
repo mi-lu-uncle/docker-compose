@@ -1,10 +1,13 @@
-version: '3.9'
+version: '3.8'
 services:
   mqnamesrv:
     image: apache/rocketmq:4.9.4
     container_name: rocketmq_namesrv
+    restart: always
     ports:
-      - 9876:9876
+      - "9876:9876"
+    environment:
+      JAVA_OPT_EXT: "-server -Xms512m -Xmx512m"
     volumes:
       - ./logs:/opt/logs
       - ./data:/opt/store
@@ -12,17 +15,29 @@ services:
   mqbroker:
     image: apache/rocketmq:4.9.4
     container_name: rocketmq_broker
+    restart: always
     ports:
-      - 10909:10909
-      - 10911:10911
+      - "10909:10909"
+      - "10911:10911"
+      - "10912:10912"
     volumes:
       - ./logs:/opt/logs
       - ./data:/opt/store
       - ./conf/broker.conf:/etc/rocketmq/broker.conf
     environment:
-      NAMESRV_ADDR: "rocketmq_namesrv:9876"
+      NAMESRV_ADDR: "127.0.0.1:9876"
       JAVA_OPTS: " -Duser.home=/opt"
-      JAVA_OPT_EXT: "-server -Xms1024m -Xmx1024m -Xmn1024m"
+      JAVA_OPT_EXT: "-server -Xms512m -Xmx512m -Xmn512m"
     command: ./mqbroker -c /etc/rocketmq/broker.conf
+    depends_on:
+      - mqnamesrv
+  dashbord:
+    image: apacherocketmq/rocketmq-dashboard:1.0.0
+    container_name: rocketmq_dashboard
+    ports:
+      - "19876:8080"
+    environment:
+      JAVA_OPTS: "-Drocketmq.namesrv.addr=127.0.0.1:9876"
+    restart: always
     depends_on:
       - mqnamesrv
