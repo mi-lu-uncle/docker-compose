@@ -25,7 +25,7 @@ services:
       - ./data:/opt/store
       - ./conf/broker.conf:/etc/rocketmq/broker.conf
     environment:
-      NAMESRV_ADDR: "127.0.0.1:9876"
+      NAMESRV_ADDR: "192.168.100.135:9876"
       JAVA_OPTS: " -Duser.home=/opt"
       JAVA_OPT_EXT: "-server -Xms512m -Xmx512m -Xmn512m"
     command: ./mqbroker -c /etc/rocketmq/broker.conf
@@ -37,7 +37,7 @@ services:
     ports:
       - "19876:8080"
     environment:
-      JAVA_OPTS: "-Drocketmq.namesrv.addr=127.0.0.1:9876"
+      JAVA_OPTS: "-Drocketmq.namesrv.addr=192.168.100.135:9876"
     restart: always
     depends_on:
       - mqnamesrv
