@@ -26,6 +26,6 @@ services:
 #mongo
 #show dbs
 #use admin
-#此处设置123456的密码进攻参考，实际安装过程中要设置复杂一点的密码，不然跟没设置密码没有区别
-#db.createUser({user: "root",pwd: "123456",roles: [ { role: "root", db: "admin" } ]})
+#此处设置example的密码进攻参考，实际安装过程中要设置复杂一点的密码，不然跟没设置密码没有区别
+#db.createUser({user: "root",pwd: "example",roles: [ { role: "root", db: "admin" } ]})
 #exit
